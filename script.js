@@ -1,9 +1,10 @@
 let apiUrlAll = 'https://api.exchangeratesapi.io/latest';
 let apiUrl = 'https://api.exchangeratesapi.io/latest?base=';
-let apiURLForDiagram = 'https://api.exchangeratesapi.io/history?start_at=2020-01-01&end_at=2020-08-01&symbols=EUR&base=';
-let defaultCurrency = 'USD';
-let dates = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
-let rates = [12, 19, 3, 5, 2, 3];
+let apiURLForDiagram = 'https://api.exchangeratesapi.io/history?start_at=2020-01-01&end_at=2020-08-01&symbols=';
+let currencyBase = 'USD';
+let currencyTo = 'EUR';
+let dates = [];
+let rates = [];
 
 function loadSelectors(idCurrency) {
     let currencySelect = document.querySelector(idCurrency);
@@ -21,36 +22,51 @@ function loadSelectors(idCurrency) {
         })
 }
 
-function getRates(currency) {
-    newApiUrl = apiURLForDiagram + currency;
+function getRates() {
+    newApiUrl = `${apiURLForDiagram}` + currencyTo + '&base=' + currencyBase;
     fetch(newApiUrl)
         .then(response => response.json())
         .then(response => {
-            console.log(response);
+            dates = [];
+            rates = [];
+            // console.log(response);
             let currencies = Object.keys(response.rates);
+            currencies.sort(function(a,b){
+                return new Date(a) - new Date(b)
+              })
+            // console.log(currencies);
             for (const property in currencies) {
               
                     let date = (currencies[property]);
                     let currencyAndRate = Object.values(response.rates[date]);
                     let rate = currencyAndRate[0];
                     
-                    console.log(date);
-                    console.log(rate);
-                
+                    dates.push(date);
+                    rates.push(rate);  
             }
-            console.log(rates);
+            displayDiagram();
         })
 }
 
 function showRatesOnSelectorChange() {
-    let currencySelect = document.querySelector('select');
+    let currencySelect = document.querySelector('#currency-one');
     currencySelect.addEventListener('change', (event) => {
-        let currency = event.target.value;
-        getRates(currency);
+        currencyBase = event.target.value;
+        getRates();
+    });
+    let currencySelect2 = document.querySelector('#currency-two');
+    currencySelect2.addEventListener('change', (event) => {
+        currencyTo = event.target.value;
+        getRates();
     });
 }
 
 function displayDiagram(){
+    
+    // console.log(dates);
+    // console.log(rates);
+    console.log(currencyBase);
+    console.log(currencyTo);
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'line',
@@ -83,7 +99,7 @@ function displayDiagram(){
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: false
                     }
                 }]
             }
@@ -91,10 +107,13 @@ function displayDiagram(){
     });
 }
 
-(() => {
+function initialize(){
     loadSelectors('#currency-one');
     loadSelectors('#currency-two');
-    getRates(defaultCurrency);
-    // showRatesOnSelectorChange();
-    displayDiagram();
+    getRates();
+}
+
+(() => {
+    initialize();
+    showRatesOnSelectorChange();
 })();
