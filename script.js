@@ -109,10 +109,10 @@ function displayDiagram(){
                 label: currencyTo,
                 data: rates,
                 backgroundColor: [
-                    'transparent'
+                    '#ececec60'
                 ],
                 borderColor: [
-                    'rgba(0, 153, 153, 0.5)'
+                    'rgba(0, 153, 153, 0.6)'
                 ],
                 borderWidth: 5
             }]
@@ -125,6 +125,11 @@ function displayDiagram(){
                         beginAtZero: false
                     }
                 }]
+            },
+            elements: {
+                point:{
+                    radius: 0.1
+                }
             }
         }
     });
