@@ -14,12 +14,20 @@ function loadSelectors(idCurrency) {
         .then(response => response.json())
         .then(response => {
             let currencies = Object.keys(response.rates);
+            currencies.push('EUR');
+            currencies.sort();
             for (const index in currencies) {
                 let currency = (currencies[index]);
                 let option = document.createElement('option');
                 option.appendChild(document.createTextNode(currency));
                 option.value = currency;
                 currencySelect.appendChild(option);
+            }
+
+            if(idCurrency == '#currency-one'){
+                setDefaultSelectElement('currency-one', 'USD');
+            }else{
+                setDefaultSelectElement('currency-two', 'PLN');
             }
         })
 }
@@ -107,6 +115,11 @@ function displayDiagram(){
             }
         }
     });
+}
+
+function setDefaultSelectElement(id, valueToSelect) {    
+    let element = document.getElementById(id);
+    element.value = valueToSelect;
 }
 
 function initialize(){
