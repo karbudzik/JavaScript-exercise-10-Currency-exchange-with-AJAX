@@ -1,4 +1,4 @@
-# JavaScript-exercise-10-Exchange-rates-with-AJAX
+# JavaScript-exercise-10-Currency-exchange-with-AJAX
 Application made during 6-hours workshop, with emphasis on using external API, practicing asynchronous JavaScript and using JS library - charts.js.
 
 ## General information
