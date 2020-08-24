@@ -5,6 +5,8 @@ let currencyBase = 'USD';
 let currencyTo = 'EUR';
 let dates = [];
 let rates = [];
+let mychart;
+let firstRun = true;
 
 function loadSelectors(idCurrency) {
     let currencySelect = document.querySelector(idCurrency);
@@ -44,8 +46,24 @@ function getRates() {
                     dates.push(date);
                     rates.push(rate);  
             }
-            displayDiagram();
+            if(firstRun){
+                displayDiagram();
+                firstRun = false;  
+            }else{
+                updateDiagram(dates, rates);
+            }
+            
         })
+}
+
+function updateDiagram(dates, rates){
+    console.log("update");
+    console.log(mychart);
+    mychart.data.datasets[0].data = rates;
+    mychart.data.labels = dates;
+    mychart.data.datasets[0].label = 'changed';
+
+    mychart.update();
 }
 
 function showRatesOnSelectorChange() {
@@ -62,13 +80,10 @@ function showRatesOnSelectorChange() {
 }
 
 function displayDiagram(){
-    
-    // console.log(dates);
-    // console.log(rates);
     console.log(currencyBase);
     console.log(currencyTo);
     var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
+    mychart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: dates,
