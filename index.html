@@ -4,17 +4,21 @@
   <meta charset="utf-8">
   <title>AJAX exercise</title>
   <meta name="description" content="Ajax exercise">
-  <style src="style.css"></style>
+  <link rel="stylesheet" type="text/css" href="style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous" defer></script>
   <script src="script.js" defer></script>
 </head>
 <body>
-    <div class = "select-div">
+  <div class="container">
+    <h1>Exchange rates:</h1>
+    <p>Select currencies you want to compare:</p>
+    <div class = "select-div">        
       <select id="currency-one"></select>
       <select id="currency-two"></select>
     </div>
-    <div>
-      <canvas id="myChart" width="1000px" height="600px"></canvas> 
+    <div>        
+      <canvas id="myChart" width="1000px" height="500px"></canvas> 
     </div>
+  </div>
 </body>
 </html>
